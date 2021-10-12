@@ -19,4 +19,15 @@ router.post("/", async (req, res) => {
   res.status(201).json(newUser.rows);
 });
 
+router.delete("/", async (req, res) => {
+  const { id } = req.body;
+
+  const removeUser = await pool.query(
+    "DELETE FROM users WHERE id = $1 RETURNING *",
+    [id]
+  );
+  res.status(204).json({ message: "success" });
+  console.log(removeUser.rows);
+});
+
 module.exports = router;
